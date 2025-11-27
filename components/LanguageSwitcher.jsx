@@ -1,51 +1,33 @@
-// components/LanguageSwitcher.tsx
+// components/LanguageSwitcher.jsx
 'use client';
 
-import { useRouter, usePathname } from 'next/navigation';
-import { locales } from '@/data/locales';
-import type { Locale } from '@/data/locales';
+import { usePathname, useRouter } from 'next/navigation';
+import { locales } from '../data/locales'; // 使用相对路径
 
-export default function LanguageSwitcher() {
+export default function LanguageSwitcher({ currentLang }) {
   const router = useRouter();
   const pathname = usePathname();
-
-  // 从 pathname 里安全取出当前语言，例如 "/en/about" → "en"，"/" → null
-  const currentLocale = pathname.split('/')[1];
-  const isValidLocale = locales.includes(currentLocale as Locale);
-  const activeLocale = isValidLocale ? currentLocale : 'zh';
-
-  const changeLanguage = (newLocale: Locale) => {
-    const segments = pathname.split('/');
-    
-    if (isValidLocale) {
-      // 已有语言段，直接替换
-      segments[1] = newLocale;
-    } else {
-      // 当前是根路径或没有语言段，插入新语言
-      segments.splice(1, 0, newLocale);
-    }
-
-    router.push(segments.join('/'));
+  
+  // 简化的语言切换逻辑
+  const switchLanguage = (lang) => {
+    const newPath = `${pathname}?lang=${lang}`;
+    router.push(newPath);
   };
 
   return (
-    <div className="flex items-center gap-3 p-2">
+    <div className="flex space-x-2 p-2">
       <button
-        onClick={() => changeLanguage('zh')}
-        className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all ${
-          activeLocale === 'zh'
-            ? 'bg-primary-blue text-white'
-            : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+        onClick={() => switchLanguage('zh')}
+        className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
+          currentLang === 'zh' ? 'bg-primary-blue text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
         }`}
       >
         中文
       </button>
       <button
-        onClick={() => changeLanguage('en')}
-        className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all ${
-          activeLocale === 'en'
-            ? 'bg-primary-blue text-white'
-            : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+        onClick={() => switchLanguage('en')}
+        className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
+          currentLang === 'en' ? 'bg-primary-blue text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
         }`}
       >
         English
