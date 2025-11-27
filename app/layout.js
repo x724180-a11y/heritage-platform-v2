@@ -1,5 +1,5 @@
 // app/layout.js
-import './globals.css'; // 导入全局样式
+import '@/app/globals.css'; // 导入全局样式
 import { Inter } from 'next/font/google';
 
 const inter = Inter({ subsets: ['latin'] });
