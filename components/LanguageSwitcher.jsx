@@ -7,7 +7,7 @@ import { locales } from '../data/locales'; // 使用相对路径
 export default function LanguageSwitcher({ currentLang }) {
   const router = useRouter();
   const pathname = usePathname();
-  
+
   // 简化的语言切换逻辑：通过 URL Query Parameter 切换
   const switchLanguage = (lang) => {
     const newPath = `${pathname}?lang=${lang}`;
