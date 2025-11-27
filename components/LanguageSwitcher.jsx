@@ -2,7 +2,7 @@
 'use client';
 
 import { usePathname, useRouter } from 'next/navigation';
-import { locales } from '@/data/locales'; // 假设语言包在 data 文件夹
+import { locales } from '../data/locales'; // 假设语言包在 data 文件夹
 
 export default function LanguageSwitcher({ currentLang }) {
   const router = useRouter();
@@ -34,4 +34,5 @@ export default function LanguageSwitcher({ currentLang }) {
       </button>
     </div>
   );
+
 }
