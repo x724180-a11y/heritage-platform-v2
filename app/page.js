@@ -1,7 +1,7 @@
 // app/page.js
-import { locales } from '@/data/locales';
-import Card from '@/components/Card';
-import LanguageSwitcher from '@/components/LanguageSwitcher';
+import { locales } from '../data/locales';
+import Card from '../components/Card';
+import LanguageSwitcher from '../components/LanguageSwitcher';
 import { Globe, Wand2 } from 'lucide-react';
 
 // 获取当前语言环境
@@ -63,4 +63,5 @@ export default function HomePage({ searchParams }) {
       </footer>
     </div>
   );
+
 }
