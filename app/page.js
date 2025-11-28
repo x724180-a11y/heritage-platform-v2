@@ -1,33 +1,42 @@
-import { locales } from '../data/locales';
-import Card from '../components/Card';
-import LanguageSwitcher from '../components/LanguageSwitcher';
+// app/page.tsx
+import Card from '@/components/Card'
 
-export default function Home({ searchParams }) {
-  // 1. 获取当前语言（使用 URL 参数）
-  const currentLang = searchParams.lang === 'en' ? 'en' : 'zh';
-  
-  // 2. 避免同步解析：直接使用 locales[currentLang].data 进行循环
-  
+// 加上默认值，防止 undefined
+export const revalidate = 60 // 可选：每 60 秒重新获取一次
+
+export default async function Home() {
+  let projects = []
+
+  try {
+    const res = await fetch('https://你的数据接口地址', {
+      next: { revalidate: 60 }, // 或者 cache: 'no-store' 如果要实时
+    })
+
+    if (res.ok) {
+      projects = await res.json()
+    } else {
+      console.error('Fetch failed:', res.status)
+    }
+  } catch (error) {
+    console.error('Fetch error:', error)
+  }
+
+  // 关键：永远保证 projects 是数组
   return (
-    <div className="bg-white">
-      <div className="mx-auto max-w-2xl px-4 py-8 sm:px-6 sm:py-16 lg:max-w-7xl lg:px-8">
-        
-        {/* 标题和切换器区域 */}
-        <div className="flex justify-between items-center mb-10">
-          <h2 className="text-4xl font-bold tracking-tight text-gray-900">
-            {locales[currentLang].title}
-          </h2>
-          <LanguageSwitcher currentLang={currentLang} />
-        </div>
-
-        {/* 卡片列表 */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {/* 修正后的循环：直接使用 locales[currentLang].data */}
-          {locales[currentLang].data.map((item) => (
+    <main className="container mx-auto py-10">
+      <h1 className="text-4xl font-bold mb-8">遗产平台</h1>
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {projects.length > 0 ? (
+          projects.map((item: any) => (
             <Card key={item.id} {...item} />
-          ))}
-        </div>
+          ))
+        ) : (
+          <p className="col-span-full text-center text-gray-500">
+            暂无数据或加载失败
+          </p>
+        )}
       </div>
-    </div>
-  );
+    </main>
+  )
 }
