@@ -1,53 +1,48 @@
-// app/page.tsx  —— 最终永不 500 版
+// app/page.tsx  —— 正确的、永不 500 的最终版
 import Card from '@/components/Card';
+import { locales } from '@/data/locales';
 
-export const revalidate = 60;
+const { zh } = locales;
 
-export default async function Home() {
-  let projects: any[] = [];
-
-  try {
-    // ←←←← 把这里改成你真实的数据接口！！！
-    const res = await fetch('https://your-real-api.com/projects', {
-      next: { revalidate: 60 }, // 60 秒缓存
-    });
-
-    if (res.ok) {
-      const data = await res.json();
-      projects = Array.isArray(data) ? data : [];
-    } else {
-      console.error('接口返回非 200:', res.status);
-    }
-  } catch (e) {
-    console.error('请求完全失败:', e);
-  }
+export default function Home() {
+  const cards = [
+    {
+      id: 1,
+      name: zh.card1_title,
+      description: zh.card1_description,
+      href: '/query',               // 你后面可以建这个页面
+      imgSrc: '/placeholder1.jpg',  // 你可以放两张占位图，或者留空
+      imgAlt: '地区遗产查询',
+    },
+    {
+      id: 2,
+      name: zh.card2_title,
+      description: zh.card2_description,
+      href: '/generate',            // 你后面可以建这个页面
+      imgSrc: '/placeholder2.jpg',
+      imgAlt: 'AI 创意可视化',
+    },
+  ];
 
   return (
-    <main className="min-h-screen bg-gray-50 py-12 px-4">
-      <div className="max-w-7xl mx-auto">
-        <h1 className="text-5xl font-bold text-center mb-12 text-gray-800">
-          遗产平台
+    <main className="min-h-screen bg-gradient-to-b from-blue-50 to-white py-16 px-4">
+      <div className="max-w-6xl mx-auto text-center">
+        <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
+          {zh.title}
         </h1>
+        <p className="text-xl text-gray-600 mb-16 max-w-3xl mx-auto">
+          {zh.subtitle}
+        </p>
 
-        {projects.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {projects.map((item) => (
-              <Card
-                key={item.id}
-                id={item.id}
-                name={item.name || item.title}
-                description={item.description || '暂无描述'}
-                imgSrc={item.imgSrc || item.image || '/placeholder.jpg'}
-                imgAlt={item.imgAlt || item.name || '项目图片'}
-                href={item.href || `/project/${item.id}`}
-              />
-            ))}
-          </div>
-        ) : (
-          <div className="text-center py-32 text-xl text-gray-500">
-            暂无项目数据（检查接口是否正确）
-          </div>
-        )}
+        <div className="grid md:grid-cols-2 gap-12 max-w-5xl mx-auto">
+          {cards.map((card) => (
+            <Card key={card.id} {...card} />
+          ))}
+        </div>
+
+        <footer className="mt-24 text-gray-500">
+          {zh.footer}
+        </footer>
       </div>
     </main>
   );
