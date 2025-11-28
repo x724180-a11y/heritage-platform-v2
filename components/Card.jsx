@@ -1,17 +1,16 @@
 // components/Card.jsx
 import Image from 'next/image';
 
-export default function Card({ id, name, description, imageSrc, imageAlt, href }) {
+export default function Card({ id, name, description, imgSrc, imgAlt, href }) {
   return (
     <div key={id} className="group relative">
       <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
         
-        {/* Next.js Image Component 必须使用 width 和 height 属性 */}
         <Image
-          src={imageSrc}
-          alt={imageAlt}
-          width={600} // 为图片设置固定的宽度，避免 Layout Shift
-          height={400} // 为图片设置固定的高度
+          src={imgSrc}
+          alt={imgAlt}
+          width={600}
+          height={400}
           className="h-full w-full object-cover object-center group-hover:opacity-75"
         />
 
