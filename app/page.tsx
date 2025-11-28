@@ -1,41 +1,51 @@
-// app/page.tsx   
+// app/page.tsx  —— 最终永不 500 版
 import Card from '@/components/Card';
 
-export const revalidate = 60; // 可选：60 秒缓存
+export const revalidate = 60;
 
 export default async function Home() {
   let projects: any[] = [];
 
-  // 防止任何情况下 fetch 炸掉
   try {
-    const res = await fetch('https://你的数据接口地址', {
-      cache: 'force-cache',
-      next: { revalidate: 60 },
+    // ←←←← 把这里改成你真实的数据接口！！！
+    const res = await fetch('https://your-real-api.com/projects', {
+      next: { revalidate: 60 }, // 60 秒缓存
     });
 
-    if (res?.ok) {
+    if (res.ok) {
       const data = await res.json();
-      // 再保险一次，防止返回 null/undefined/字符串
       projects = Array.isArray(data) ? data : [];
+    } else {
+      console.error('接口返回非 200:', res.status);
     }
   } catch (e) {
-    console.error('首页数据加载失败', e);
+    console.error('请求完全失败:', e);
   }
 
   return (
     <main className="min-h-screen bg-gray-50 py-12 px-4">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-4xl font-bold text-center mb-12">遗产平台</h1>
+        <h1 className="text-5xl font-bold text-center mb-12 text-gray-800">
+          遗产平台
+        </h1>
 
         {projects.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {projects.map((item) => (
-              <Card key={item.id || Math.random()} {...item} />
+              <Card
+                key={item.id}
+                id={item.id}
+                name={item.name || item.title}
+                description={item.description || '暂无描述'}
+                imgSrc={item.imgSrc || item.image || '/placeholder.jpg'}
+                imgAlt={item.imgAlt || item.name || '项目图片'}
+                href={item.href || `/project/${item.id}`}
+              />
             ))}
           </div>
         ) : (
-          <div className="text-center py-20 text-gray-500 text-xl">
-            暂无项目数据
+          <div className="text-center py-32 text-xl text-gray-500">
+            暂无项目数据（检查接口是否正确）
           </div>
         )}
       </div>
