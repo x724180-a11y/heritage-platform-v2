@@ -1,6 +1,7 @@
-// app/page.js  —— Day1 美炸版
+// app/page.js  —— Day1 美炸版（已测试无坑）
 import Card from '@/components/Card';
 import { locales } from '@/data/locales';
+
 const { zh } = locales;
 
 const cards = [
@@ -25,12 +26,9 @@ const cards = [
 export default function Home() {
   return (
     <>
-      {/* 渐变背景 + 粒子感 */}
       <div className="fixed inset-0 -z-10 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50" />
-      
       <main className="min-h-screen py-20 px-6">
         <div className="max-w-7xl mx-auto">
-          {/* 标题区：超大 + 动画 */}
           <div className="text-center mb-20 animate-in fade-in slide-in-from-bottom-8 duration-1000">
             <h1 className="text-6xl md:text-8xl font-black bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 mb-6">
               {zh.title}
@@ -39,8 +37,6 @@ export default function Home() {
               {zh.subtitle}
             </p>
           </div>
-
-          {/* 卡片区：悬浮 + 放大动画 + 玻璃拟态 */}
           <div className="grid md:grid-cols-2 gap-12 max-w-6xl mx-auto">
             {cards.map((card, i) => (
               <div
@@ -72,7 +68,6 @@ export default function Home() {
               </div>
             ))}
           </div>
-
           <footer className="text-center mt-24 text-gray-500">
             {zh.footer}
           </footer>
