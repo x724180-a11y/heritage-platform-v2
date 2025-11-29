@@ -1,3 +1,4 @@
+// tailwind.config.js
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
@@ -8,8 +9,22 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'primary-blue': '#1D4ED8', // 深蓝作为主题色
-        'secondary-gray': '#F3F4F6', // 浅灰作为背景色
+        'primary-blue': '#1D4ED8',
+        'secondary-gray': '#F3F4F6',
+      },
+      animation: {
+        'fade-in': 'fadeIn 1s ease-out forwards',
+        'slide-in-from-bottom': 'slideIn 1.2s ease-out forwards',
+      },
+      keyframes: {
+        fadeIn: {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
+        slideIn: {
+          '0%': { opacity: '0', transform: 'translateY(50px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
       },
     },
   },
