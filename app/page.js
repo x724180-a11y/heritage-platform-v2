@@ -1,7 +1,6 @@
-// app/page.js
+// app/page.js  —— Day1 美炸版
 import Card from '@/components/Card';
 import { locales } from '@/data/locales';
-
 const { zh } = locales;
 
 const cards = [
@@ -10,7 +9,7 @@ const cards = [
     name: zh.card1_title,
     description: zh.card1_description,
     href: '/query',
-    imgSrc: 'https://images.unsplash.com/photo-1518709268805-8df67eaccef1?w=600&h=400&fit=crop',
+    imgSrc: 'https://images.unsplash.com/photo-1518709268805-8df67eaccef1?w=800&h=600&fit=crop',
     imgAlt: '地区遗产查询',
   },
   {
@@ -18,32 +17,67 @@ const cards = [
     name: zh.card2_title,
     description: zh.card2_description,
     href: '/generate',
-    imgSrc: 'https://images.unsplash.com/photo-1617791160505-6f00504e3519?w=600&h=400&fit=crop',
+    imgSrc: 'https://images.unsplash.com/photo-1617791160505-6f00504e3519?w=800&h=600&fit=crop',
     imgAlt: 'AI 创意可视化',
   },
 ];
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-gradient-to-b from-blue-50 to-white py-16 px-4">
-      <div className="max-w-6xl mx-auto text-center">
-        <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
-          {zh.title}
-        </h1>
-        <p className="text-xl text-gray-600 mb-16 max-w-3xl mx-auto">
-          {zh.subtitle}
-        </p>
+    <>
+      {/* 渐变背景 + 粒子感 */}
+      <div className="fixed inset-0 -z-10 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50" />
+      
+      <main className="min-h-screen py-20 px-6">
+        <div className="max-w-7xl mx-auto">
+          {/* 标题区：超大 + 动画 */}
+          <div className="text-center mb-20 animate-in fade-in slide-in-from-bottom-8 duration-1000">
+            <h1 className="text-6xl md:text-8xl font-black bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 mb-6">
+              {zh.title}
+            </h1>
+            <p className="text-xl md:text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
+              {zh.subtitle}
+            </p>
+          </div>
 
-        <div className="grid md:grid-cols-2 gap-12 max-w-5xl mx-auto">
-          {cards.map((card) => (
-            <Card key={card.id} {...card} />
-          ))}
+          {/* 卡片区：悬浮 + 放大动画 + 玻璃拟态 */}
+          <div className="grid md:grid-cols-2 gap-12 max-w-6xl mx-auto">
+            {cards.map((card, i) => (
+              <div
+                key={card.id}
+                className="animate-in fade-in slide-in-from-bottom-12 duration-1000"
+                style={{ animationDelay: `${i * 200}ms` }}
+              >
+                <a href={card.href} className="block group">
+                  <div className="relative overflow-hidden rounded-3xl shadow-2xl transition-all duration-500 group-hover:scale-105 group-hover:shadow-3xl bg-white/70 backdrop-blur-xl border border-white/20">
+                    <img
+                      src={card.imgSrc}
+                      alt={card.imgAlt}
+                      className="w-full h-96 object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+                    <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
+                      <h3 className="text-3xl font-bold mb-3 drop-shadow-lg">
+                        {card.name}
+                      </h3>
+                      <p className="text-lg opacity-90 drop-shadow">
+                        {card.description}
+                      </p>
+                      <span className="inline-block mt-6 px-6 py-3 bg-white/20 backdrop-blur rounded-full font-medium group-hover:bg-white group-hover:text-purple-700 transition-all">
+                        立即体验 →
+                      </span>
+                    </div>
+                  </div>
+                </a>
+              </div>
+            ))}
+          </div>
+
+          <footer className="text-center mt-24 text-gray-500">
+            {zh.footer}
+          </footer>
         </div>
-
-        <footer className="mt-24 text-gray-500 text-sm">
-          {zh.footer}
-        </footer>
-      </div>
-    </main>
+      </main>
+    </>
   );
 }
