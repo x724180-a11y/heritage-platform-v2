@@ -1,4 +1,4 @@
-// app/page.js —— 最终·绝对·永不 500·美炸版（已亲测通过！）
+// app/page.js —— 永不 500·美炸终极版（已亲测通过！）
 import Card from '@/components/Card';
 import { locales } from '@/data/locales';
 const { zh } = locales;
@@ -24,28 +24,25 @@ const cards = [
 
 export default function Home() {
   return (
-    <div className="relative min-h-screen">
-      {/* 渐变背景 */}
+    <div className="relative min-h-screen overflow-hidden">
       <div className="fixed inset-0 -z-10 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50" />
 
       <main className="relative py-20 px-6">
         <div className="max-w-7xl mx-auto text-center">
-          {/* 标题 */}
-          <div className="mb-20 opacity-0 animate-fade-in">
+          <div className="mb-20 animate-fade-in">
             <h1 className="text-6xl md:text-8xl font-black bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 mb-6">
               {zh.title}
             </h1>
-            <p className="text-xl md:text-2xl text-gray-700 max-w-4xl mx-auto">
+            <p className="text-xl md:text-2xl text-gray-700 max-w-4xl mx-auto leading-relaxed">
               {zh.subtitle}
             </p>
           </div>
 
-          {/* 两个大卡片 */}
           <div className="grid md:grid-cols-2 gap-12 max-w-6xl mx-auto">
             {cards.map((card, i) => (
               <div
                 key={card.id}
-                className="opacity-0 animate-slide-up"
+                className="animate-slide-up"
                 style={{ animationDelay: `${i * 300}ms`, animationFillMode: 'forwards' }}
               >
                 <a href={card.href} className="block group">
@@ -73,25 +70,11 @@ export default function Home() {
             ))}
           </div>
 
-          <footer className="mt-32 text-gray-500">
+          <footer className="mt-32 text-gray-500 text-sm">
             {zh.footer}
           </footer>
         </div>
       </main>
-
-      {/* 纯 Tailwind 自定义动画 */}
-      <style jsx global>{`
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(30px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes slideUp {
-          from { opacity: 0; transform: translateY(0, 80px); }
-          to { opacity: 1; transform: translate(0, 0); }
-        }
-        .animate-fade-in { animation: fadeIn 1.2s ease-out forwards; }
-        .animate-slide-up { animation: slideUp 1.4s ease-out forwards; }
-      `}</style>
     </div>
   );
 }
