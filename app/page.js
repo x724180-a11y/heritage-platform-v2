@@ -1,4 +1,4 @@
-// app/page.tsx 
+// app/page.js
 import Card from '@/components/Card';
 import { locales } from '@/data/locales';
 
