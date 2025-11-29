@@ -1,29 +1,29 @@
-// app/page.tsx  —— 正确的、永不 500 的最终版
+// app/page.tsx 
 import Card from '@/components/Card';
 import { locales } from '@/data/locales';
 
 const { zh } = locales;
 
-export default function Home() {
-  const cards = [
-    {
-      id: 1,
-      name: zh.card1_title,
-      description: zh.card1_description,
-      href: '/query',               // 你后面可以建这个页面
-      imgSrc: '/placeholder1.jpg',  // 你可以放两张占位图，或者留空
-      imgAlt: '地区遗产查询',
-    },
-    {
-      id: 2,
-      name: zh.card2_title,
-      description: zh.card2_description,
-      href: '/generate',            // 你后面可以建这个页面
-      imgSrc: '/placeholder2.jpg',
-      imgAlt: 'AI 创意可视化',
-    },
-  ];
+const cards = [
+  {
+    id: 1,
+    name: zh.card1_title,
+    description: zh.card1_description,
+    href: '/query',
+    imgSrc: 'https://images.unsplash.com/photo-1518709268805-8df67eaccef1?w=600&h=400&fit=crop',
+    imgAlt: '地区遗产查询',
+  },
+  {
+    id: 2,
+    name: zh.card2_title,
+    description: zh.card2_description,
+    href: '/generate',
+    imgSrc: 'https://images.unsplash.com/photo-1617791160505-6f00504e3519?w=600&h=400&fit=crop',
+    imgAlt: 'AI 创意可视化',
+  },
+];
 
+export default function Home() {
   return (
     <main className="min-h-screen bg-gradient-to-b from-blue-50 to-white py-16 px-4">
       <div className="max-w-6xl mx-auto text-center">
@@ -40,7 +40,7 @@ export default function Home() {
           ))}
         </div>
 
-        <footer className="mt-24 text-gray-500">
+        <footer className="mt-24 text-gray-500 text-sm">
           {zh.footer}
         </footer>
       </div>
