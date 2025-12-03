@@ -1,58 +1,41 @@
-// components/LanguageSwitcher.jsx
+// components/LanguageSwitcher.jsx —— 终极多语言切换器（直接覆盖！）
 'use client';
 
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { locales } from '../data/locales';
+import { useRouter, usePathname } from 'next/navigation';
 
 export default function LanguageSwitcher() {
   const router = useRouter();
-  const pathname = usePathname() || '/';
-  const searchParams = useSearchParams();
+  const pathname = usePathname();
 
-  // 从 pathname 自动推断当前语言（例如 "/en/about" -> "en"；"/about" -> null）
-  const segments = pathname.split('/');
-  const detected = segments[1];
-  const isValidLocale = locales.includes(detected);
-  const activeLocale = isValidLocale ? detected : 'zh';
+  // 判断当前是中文还是英文路径
+  const isEnglish = pathname.startsWith('/en');
+  const currentLang = isEnglish ? 'en' : 'zh';
 
-  const changeLanguage = (newLocale) => {
-    // 保留路径中除语言段外的其余部分
-    const restSegments = segments.slice(isValidLocale ? 2 : 1).filter(Boolean);
-    const restPath = restSegments.length ? `/${restSegments.join('/')}` : '';
-    const newPath = `/${newLocale}${restPath}`;
-
-    // 保留现有的 query 参数
-    const qs = searchParams ? searchParams.toString() : '';
-    const newUrl = qs ? `${newPath}?${qs}` : newPath;
-
-    router.push(newUrl);
+  const toggleLanguage = () => {
+    if (isEnglish) {
+      // 从英文切回中文：去掉 /en 前缀
+      router.push(pathname.replace(/^\/en/, '') || '/');
+    } else {
+      // 从中文切到英文：加上 /en 前缀
+      router.push('/en' + (pathname === '/' ? '' : pathname));
+    }
   };
 
   return (
-    <div className="flex space-x-2 p-2" role="group" aria-label="Language switcher">
-      <button
-        type="button"
-        onClick={() => changeLanguage('zh')}
-        aria-pressed={activeLocale === 'zh'}
-        aria-label="切换到中文"
-        className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
-          activeLocale === 'zh' ? 'bg-primary-blue text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-        }`}
-      >
-        中文
-      </button>
-
-      <button
-        type="button"
-        onClick={() => changeLanguage('en')}
-        aria-pressed={activeLocale === 'en'}
-        aria-label="Switch to English"
-        className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
-          activeLocale === 'en' ? 'bg-primary-blue text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-        }`}
-      >
-        English
-      </button>
-    </div>
+    <button
+      onClick={toggleLanguage}
+      className="fixed top-6 right-6 z-50 flex items-center gap-2 px-5 py-3 bg-white/90 backdrop-blur-lg rounded-full shadow-lg hover:shadow-2xl transition-all hover:scale-110 font-bold text-lg border border-gray-200"
+      aria-label="Switch language"
+    >
+      {isEnglish ? (
+        <>
+          <span className="text-xl">🇺🇸</span> EN
+        </>
+      ) : (
+        <>
+          <span className="text-xl">🇨🇳</span> 中
+        </>
+      )}
+    </button>
   );
 }
